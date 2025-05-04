@@ -1,0 +1,12 @@
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    allowed_methods_listener: true
+    view:
+        view_response_listener: true
+        formats:
+            xml: false
+            json: true
+    format_listener: false
+    serializer:
+        serialize_null: true

@@ -1,0 +1,62 @@
+when@dev: &nelmio_api_doc
+  nelmio_api_doc:
+    documentation:
+      info:
+        title: 'API Documentation'
+        description: 'API'
+        version: '1.0.0'
+      components:
+        schemas:
+          error.400:
+            description: 'Validation Failed'
+            type: object
+            required:
+              - code
+              - message
+              - errors
+            properties:
+              code:
+                type: string
+                example: '400'
+              message:
+                type: string
+                example: 'Validation Failed'
+              errors:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error.validation'
+              params:
+                description: 'Addition params for exception.'
+                type: object
+                properties:
+                  key:
+                    type: string
+                    example: 'value'
+          error.validation:
+            description: 'Validation error object'
+            type: object
+            required:
+              - code
+              - message
+              - path
+            properties:
+              code:
+                type: string
+                example: 'field.invalid'
+              message:
+                type: string
+                example: 'Field invalid'
+              path:
+                type: string
+                example: 'field'
+    areas:
+      default:
+        path_patterns:
+          - ^/api/bff/v\d+
+        documentation:
+          info:
+            title: Service API for Bff
+            description: "This is the documentation API for Bff service"
+
+when@test:
+  <<: *nelmio_api_doc

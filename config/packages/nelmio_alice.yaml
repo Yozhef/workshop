@@ -1,0 +1,7 @@
+when@dev: &nelmio_alice
+    nelmio_alice:
+        functions_blacklist:
+            - 'current'
+
+when@test:
+    <<: *nelmio_alice

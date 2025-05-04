@@ -1,0 +1,121 @@
+parameters:
+    app.skip_response_dto_listener: false
+    redis_cache_dsn: 'redis://%env(REDIS_HOST)%:%env(REDIS_PORT)%?database=%env(REDIS_CACHE_DB)%'
+    redis_default_cache_ttl: '%env(int:CACHE_TTL)%'
+    app.log_level: '%env(int:LOG_LEVEL)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\UI\Controller\:
+        resource: '%kernel.project_dir%/src/UI/Controller/**/**/*Controller.php'
+        tags: ['controller.service_arguments']
+
+    Psr\Container\ContainerInterface:
+        alias: 'service_container'
+
+    Symfony\Component\DependencyInjection\ContainerInterface:
+        alias: 'service_container'
+
+    App\Domain\:
+        resource: '../src/Domain/*'
+        exclude: '../src/Domain/{Entity}/*'
+
+    App\Infrastructure\:
+        resource: '../src/Infrastructure/*'
+        exclude:
+            - '../src/Infrastructure/{Exception}/*'
+            - '../src/Infrastructure/Repository/Exception/*'
+            - '../src/Infrastructure/Repository/Decorator/ServiceEntityRepository.php'
+            - '../src/Infrastructure/DependencyInjection/CompilerPass/MessengerCompilerPass.php'
+            - '../src/Infrastructure/Serializer'
+
+    App\Infrastructure\DataFixtures\AppFixtures:
+        class: App\Infrastructure\DataFixtures\AppFixtures
+        arguments:
+            - '@fidry_alice_data_fixtures.loader.doctrine'
+            - '%kernel.project_dir%'
+
+    redis_cache_adapter:
+        class: Symfony\Component\Cache\Adapter\RedisAdapter
+        arguments:
+            - '@SymfonyBundles\RedisBundle\Redis\ClientInterface'
+            - 'cache_storage'
+            - '%redis_default_cache_ttl%'
+
+    App\Infrastructure\CacheStorage\CacheStorage:
+        arguments:
+            - '@redis_cache_adapter'
+
+    query_handlers:
+        namespace: App\Application\Query\
+        resource: '%kernel.project_dir%/src/Application/Query/**/**/*Handler.php'
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: query.bus }
+
+    command_handlers:
+        namespace: App\Application\Command\
+        resource: '%kernel.project_dir%/src/Application/Command/**/**/**/*Handler.php'
+        autoconfigure: false
+        tags:
+            - { name: messenger.message_handler, bus: command.bus }
+
+    App\UI\Response\ResponseDtoListener:
+        arguments:
+            $isSkipped: '%app.skip_response_dto_listener%'
+
+    _instanceof:
+        App\Tests\DataFixtures\Faker\FakerProviderInterface:
+            tags: [ nelmio_alice.faker.provider ]
+
+    App\Tests\DataFixtures\:
+        resource: '../tests/DataFixtures'
+
+    Nelmio\Alice\Loader\NativeLoader:
+        factory: [ 'App\Infrastructure\DependencyInjection\Factory\AliceNativeLoaderFactory', 'create' ]
+        arguments:
+            $fakerProviders: !tagged 'nelmio_alice.faker.provider'
+
+    App\Infrastructure\Service\Redis\PinStorage:
+        arguments:
+            - 'pin-code'
+            - '36000'
+
+    App\Infrastructure\Service\Mailer\Client\EmailClient:
+        class: App\Infrastructure\Service\Mailer\Client\EmailClient
+        arguments:
+            $baseUri: 'https://fwdays.com'
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        Predis\ClientInterface: '@SymfonyBundles\RedisBundle\Redis\ClientInterface'
+
+        BehatHttpMockContext\Collection\ExtendedHttpMockClientCollection:
+            arguments:
+                - !tagged_iterator mock.http_client
+
+        emailing_client:
+            class: ExtendedMockHttpClient\ExtendedMockHttpClient
+            arguments:
+                $baseUri: 'https://fwdays.com'
+            tags: ['mock.http_client']
+
+        App\Infrastructure\Service\Mailer\Client\EmailClient:
+            class: App\Infrastructure\Service\Mailer\Client\EmailClient
+            arguments:
+                $httpClient: '@emailing_client'
+                $baseUri: 'https://fwdays.com'
+
+
+when@dev:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true

@@ -1,0 +1,6 @@
+when@test:
+    behat_doctrine_fixtures:
+        connections:
+            default:
+                database_fixtures_paths:
+                    - '%kernel.project_dir%/tests/DataFixtures/Orm'

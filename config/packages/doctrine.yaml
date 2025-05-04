@@ -1,0 +1,57 @@
+doctrine:
+    dbal:
+        driver: 'pdo_pgsql'
+        charset: utf8
+        url: 'postgresql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:%env(DB_PORT)%/%env(DB_NAME)%?serverVersion=%env(DB_SERVER_VERSION)%'
+        options:
+            PDO::PGSQL_ATTR_DISABLE_PREPARES: false
+        types:
+            uuid: Symfony\Bridge\Doctrine\Types\UuidType
+        mapping_types:
+            uuid: uuid
+        profiling_collect_backtrace: '%kernel.debug%'
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Domain/Entity'
+                prefix: 'App\Domain\Entity'
+                alias: App
+        controller_resolver:
+            auto_mapping: true
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            metadata_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+        dbal:
+            url: 'postgresql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:%env(DB_PORT)%/%env(DB_NAME)%?serverVersion=%env(DB_SERVER_VERSION)%'
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
+
+when@staging:
+    doctrine:
+        dbal:
+            url: 'postgresql://%env(DB_USER)%:%env(DB_PASSWORD)%@%env(DB_HOST)%:%env(DB_PORT)%/%env(DB_NAME)%?serverVersion=%env(DB_SERVER_VERSION)%'

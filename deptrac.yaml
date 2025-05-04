@@ -1,0 +1,31 @@
+parameters:
+    paths:
+        - ./src
+    layers:
+        - name: UI
+          collectors:
+              - type: classLike
+                value: ^App\\UI.*
+        - name: Infrastructure
+          collectors:
+              - type: classLike
+                value: ^App\\Infrastructure.*
+        - name: Application
+          collectors:
+              - type: classLike
+                value: ^App\\Application.*
+        - name: Domain
+          collectors:
+              - type: classLike
+                value: ^App\\Domain.*
+    ruleset:
+        UI:
+            - Application
+            - Infrastructure
+            - Domain
+        Application:
+            - Infrastructure
+            - Domain
+        Infrastructure:
+            - Domain
+        Domain: ~

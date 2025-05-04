@@ -1,0 +1,42 @@
+sentry:
+  dsn: '%env(SENTRY_DSN)%'
+  messenger:
+    enabled: false
+  tracing:
+    # ENV variable cannot be used, issue: https://github.com/getsentry/sentry-symfony/issues/883
+    enabled: false
+    dbal: # DB queries
+      enabled: false
+    cache: # cache pools
+      enabled: false
+  options:
+    traces_sample_rate: '%env(float:SENTRY_TRACES_SAMPLE_RATE)%'
+    profiles_sample_rate: '%env(float:SENTRY_PROFILES_SAMPLE_RATE)%'
+    default_integrations: true
+    http_compression: true
+    error_types: "E_ALL & ~E_NOTICE"
+    environment: '%env(APP_NAME)%'
+    release: '%env(APP_VERSION)%'
+    ignore_exceptions:
+      - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+      - Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+      - Symfony\Component\Routing\Exception\ResourceNotFoundException
+      - Symfony\Component\Routing\Exception\MethodNotAllowedException
+      - Symfony\Component\Security\Core\Exception\AccessDeniedException
+    attach_stacktrace: true
+  register_error_listener: false
+  register_error_handler: false
+
+services:
+  Sentry\Monolog\Handler:
+    arguments:
+      $hub: '@Sentry\State\HubInterface'
+      $level: !php/const Monolog\Logger::ERROR
+      $bubble: false
+    tags:
+      - { name: monolog.handler, handler: sentry }
+
+  Monolog\Processor\PsrLogMessageProcessor:
+    tags:
+      name: monolog.processor
+      handler: sentry

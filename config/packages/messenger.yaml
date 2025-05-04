@@ -1,0 +1,32 @@
+parameters:
+    base_bus_config: &base_bus_config
+        middleware:
+            - doctrine_ping_connection
+
+framework:
+    messenger:
+        default_bus: command.bus
+
+        buses:
+            command.bus: *base_bus_config
+            query.bus: ~
+
+        transports:
+            sync: 'sync://'
+            async:
+                dsn: 'amqp://%env(RABBITMQ_USER)%:%env(RABBITMQ_PASSWORD)%@%env(RABBITMQ_HOST)%:%env(RABBITMQ_PORT)%/%env(RABBITMQ_VIRTUALHOST)%'
+                options:
+                    connect_timeout: 5
+                    exchange: { name: '%env(ASYNC_TRANSPORT_QUEUE)%' }
+                    queues: { '%env(ASYNC_TRANSPORT_QUEUE)%': ~ }
+
+        routing:
+            App\Infrastructure\MessageBus\CommandMessageInterface: sync
+            App\Infrastructure\MessageBus\QueryMessageInterface: sync
+            App\Infrastructure\MessageBus\AsyncMessageInterface: async
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'

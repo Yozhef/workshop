@@ -1,0 +1,38 @@
+###< symfony/framework-bundle ###
+/.env.local
+/.env.test
+/.env.local.php
+/.env.test.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> infra-related files ###
+/.env
+###< infra-related files ###
+
+###> MacOS filesystem ###
+**/.DS_Store
+###< MacOS filesystem ###
+
+###> idea setting ###
+**/.idea
+###< idea setting ###
+.git
+/docs
+/bin/behat
+/bin/phpunit
+/behat*
+/deptrac*
+/.deptrac*
+/Makefile
+/docker-compose*
+/phpcs*
+/phpunit*
+/phpstan*
+/README.md
+/bin/tools
+/tools/src/dev

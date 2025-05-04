@@ -1,0 +1,24 @@
+default:
+    formatters:
+        progress: true
+    extensions:
+        FriendsOfBehat\SymfonyExtension:
+            bootstrap: tests/bootstrap.php
+            kernel:
+                class: App\Kernel
+                path: ~
+                environment: test
+                debug: false
+
+    suites:
+        default:
+            paths:
+                - tests/Behat/Features
+            contexts:
+                - BehatApiContext\Context\ApiContext
+                - BehatDoctrineFixtures\Context\DatabaseContext
+                - BehatApiContext\Context\ORMContext
+                - BehatMessengerContext\Context\MessengerContext
+                - BehatRedisContext\Context\RedisContext
+                - BehatRedisContext\Context\RedisFixturesContext
+                - BehatHttpMockContext\Context\HttpMockContext

@@ -1,0 +1,6 @@
+when@dev: &nelmio_describer
+    behat_nelmio_describer:
+        behat_test_path: '%kernel.project_dir%/tests/Behat/Features'
+
+when@test:
+    <<: *nelmio_describer

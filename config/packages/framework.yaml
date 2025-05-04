@@ -1,0 +1,35 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    #csrf_protection: true
+    handle_all_throwables: true
+    php_errors:
+        log: true
+
+    http_cache:
+        enabled: false
+    # Note that the session will be started ONLY if you read or write from it.
+    session:
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+
+    # We don't use esi. See https://www.w3.org/TR/esi-lang/
+    esi: false
+    # Disable init fragments listener. See https://symfony.com/doc/current/reference/configuration/framework.html#fragments
+    # It's a part of esi.
+    fragments: false
+
+    property_access: true
+
+    serializer:
+        enabled: true
+        default_context:
+            datetime_format: 'U'
+            datetime_cast: int
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

@@ -1,0 +1,95 @@
+parameters:
+    disallowedFunctionCalls:
+        -
+            function: 'dl()'
+            message: 'removed from most SAPIs, might load untrusted code'
+        -
+            function: 'eval()'
+            message: 'eval is evil, please write more code and do not use eval()'
+        -
+            function: 'print_r()'
+            message: 'use some logger instead'
+            allowParamsAnywhere:
+                2: true
+        -
+            function: 'var_dump()'
+            message: 'use some logger instead'
+        -
+            function: 'var_export()'
+            message: 'use some logger instead'
+            allowParamsAnywhere:
+                2: true
+
+
+    macpaw:
+        forbidNoProjectScopeExceptionsNamespaces:
+            - App\
+        allowNoProjectScopeExceptionsForNamespaces:
+            - App\Tests\
+
+
+    ergebnis:
+        noExtends:
+            enabled: false
+            classesAllowedToBeExtended: []
+        final:
+            enabled: false
+            allowAbstractClasses: true
+            classesNotRequiredToBeAbstractOrFinal: []
+        noCompact:
+        			enabled: false
+        testCaseWithSuffix:
+                    enabled: true
+        noNullableReturnTypeDeclaration:
+        			enabled: false
+        noParameterWithNullableTypeDeclaration:
+        			enabled: false
+        noParameterWithNullDefaultValue:
+        			enabled: false
+        noErrorSuppression:
+        			enabled: false
+        finalInAbstractClass:
+        			enabled: false
+        noConstructorParameterWithDefaultValue:
+        			enabled: false
+        noParameterWithContainerTypeDeclaration:
+        			enabled: true
+        			interfacesImplementedByContainers: []
+        			methodsAllowedToUseContainerTypeDeclarations: []
+        noSwitch:
+        			enabled: false
+
+
+    reportUnmatchedIgnoredErrors: false
+    excludePaths:
+        - %rootDir%/../../../src/Infrastructure/Migrations/*
+        - %rootDir%/../../../src/Infrastructure/DataFixtures/*
+        - %rootDir%/../../../src/Kernel.php
+        - %rootDir%/../../../tools/scripts/*
+    paths:
+        - src
+        - tests
+        - tools/src/dev
+        - tools/src/prod
+    level: 9
+    doctrine:
+        objectManagerLoader: phpstan-object-manager.php
+    treatPhpDocTypesAsCertain: false
+
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+
+parametersSchema:
+	macpaw: structure([
+	    forbidNoProjectScopeExceptionsNamespaces: array(string())
+	    allowNoProjectScopeExceptionsForNamespaces: array(string())
+	])
+
+services:
+    -
+        class: App\Tools\PHPStan\Rules\ForbidNoProjectScopeExceptionsRule
+        tags:
+            - phpstan.rules.rule
+        arguments:
+            namespaces: %macpaw.forbidNoProjectScopeExceptionsNamespaces%
+            excludeNamespaces: %macpaw.allowNoProjectScopeExceptionsForNamespaces%

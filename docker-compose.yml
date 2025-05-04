@@ -1,0 +1,86 @@
+services:
+  nginx:
+    image: nginx
+    working_dir: /app
+    depends_on:
+      - php-fpm
+    volumes:
+      - .infrastructure/docker/nginx:/etc/nginx/conf.d/
+      - .:/app:cached
+
+  common-image-php:
+    build:
+      dockerfile: .infrastructure/docker/php-fpm/Dockerfile
+    restart: 'no'
+    command: bash -c "exit 0"
+
+  php-fpm:
+    build:
+      dockerfile: .infrastructure/docker/php-fpm/Dockerfile
+      target: dev
+    depends_on:
+      - postgresql
+      - dragonfly
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+
+  postgresql:
+    image: postgres:17
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=default
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+
+  dragonfly:
+    image: docker.dragonflydb.io/dragonflydb/dragonfly
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - dragonfly-volume:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      start_period: 1m
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"     # основний порт AMQP
+      - "15672:15672"   # web management інтерфейс
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq-volume:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    environment:
+      VIRTUAL_PROTO: http
+      VIRTUAL_PORT: :8090
+      VIRTUAL_HOST: http://swagger.localhost::8090
+      URL: ""
+      URLS: |-
+        [
+          {"name": "BFF", "url": "http://localhost:8080/api/doc.default.json"},
+          {"name": "Saga", "url": "http://localhost:8080/api/doc.saga.json"}
+        ]
+
+
+volumes:
+  postgresql-volume:
+  dragonfly-volume:
+  rabbitmq-volume:
+

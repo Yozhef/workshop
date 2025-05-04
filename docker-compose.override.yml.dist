@@ -1,0 +1,20 @@
+services:
+  php-fpm:
+    environment:
+      PHP_IDE_CONFIG: serverName=workshop
+
+  nginx:
+    ports:
+      - "8080:80"
+
+  postgresql:
+    ports:
+      - "5434:5432"
+
+  dragonfly:
+    ports:
+      - "6379:6379"
+
+  swagger-ui:
+    ports:
+      - "8090:8080"

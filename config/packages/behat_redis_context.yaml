@@ -1,0 +1,3 @@
+when@test:
+  behat_redis_context:
+    dataFixturesPath: '%kernel.project_dir%/tests/DataFixtures/Redis'
