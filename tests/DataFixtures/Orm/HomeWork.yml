@@ -1,0 +1,13 @@
+App\Domain\Entity\HomeWork:
+  instance1:
+    __construct:
+      id: <uuid('8fcf5165-8a10-44ce-be25-21867da3b41d')>
+      title: 'Test homework name'
+      dueDate: <identity(new \DateTimeImmutable('2025-06-01'))>
+    createdAt: <identity(new \DateTime('2024-02-29'))>
+    updatedAt: <identity(new \DateTime('2024-02-29'))>
+  instance2:
+    __construct:
+      id: <uuid('8fcf5165-8a10-44ce-be25-21867da3b41b')>
+      title: 'Test homework name 2'
+      dueDate: <identity(new \DateTimeImmutable('2025-06-01'))>
