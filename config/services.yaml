@@ -84,6 +84,11 @@ services:
             - 'pin-code'
             - '36000'
 
+    App\Infrastructure\Service\Redis\HomeWorkStorage:
+        arguments:
+            - 'homework'
+            - '36000'
+
     App\Infrastructure\Service\Mailer\Client\EmailClient:
         class: App\Infrastructure\Service\Mailer\Client\EmailClient
         arguments:

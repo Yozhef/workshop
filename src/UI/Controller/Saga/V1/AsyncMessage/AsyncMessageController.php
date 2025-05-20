@@ -52,7 +52,7 @@ final class AsyncMessageController extends AbstractController
     ])]
     public function __invoke(
         CommandBus $queryBus,
-        DefaultEntityCreateForm $form
+        DefaultEntityCreateForm $form // TODO: bug. change to AsyncMessageCreateForm
     ): void {
         $queryBus->dispatch(new AsyncMessageCreate($form->id, $form->name));
     }

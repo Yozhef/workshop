@@ -19,6 +19,7 @@ abstract class AbstractFormType extends AbstractType implements RequestInterface
     protected const string URL = 'url';
     protected const string INTEGER = 'integer';
     protected const string ARRAY = 'array';
+    protected const string DATETIME = 'datetime';
     protected const string GREATER_THAN = 'greaterThan';
     protected const string GREATER_THAN_EQUAL = 'greaterThanEqual';
     protected const string MAX_LENGTH = 'maxLength';
