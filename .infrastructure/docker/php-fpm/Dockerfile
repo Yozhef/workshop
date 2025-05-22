@@ -4,7 +4,7 @@ WORKDIR /app
 
 # 🧰 Залежності
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git unzip zip curl libzip-dev libicu-dev libpq-dev libxml2-dev librabbitmq-dev libsqlite3-0 postgresql-client autoconf $PHPIZE_DEPS \
+    git unzip zip curl libzip-dev libicu-dev libpq-dev libxml2-dev librabbitmq-dev libsqlite3-0 postgresql-client $PHPIZE_DEPS \
  && docker-php-ext-install pdo pdo_pgsql intl sockets zip pcntl \
  && pecl install redis apcu excimer amqp-1.11.0 \
  && docker-php-ext-enable redis apcu excimer amqp \
@@ -22,20 +22,6 @@ RUN apt-get update && apt-get install -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Xdebug
-RUN apt-get update && apt-get install -y --no-install-recommends $PHPIZE_DEPS \
-    && pecl install xdebug-3.4.3 \
-    && docker-php-ext-enable xdebug \
-    && echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "display_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.start_with_request = yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.log_level = 0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.output_dir = '/var/www/xa/cache/xdebug'" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.client_port = 9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && apt-get purge -y $PHPIZE_DEPS \
-    && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # 📦 Composer
 RUN curl -sS https://getcomposer.org/composer-stable.phar -o /usr/bin/composer \
