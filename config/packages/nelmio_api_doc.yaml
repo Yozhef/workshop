@@ -57,6 +57,13 @@ when@dev: &nelmio_api_doc
           info:
             title: Service API for Bff
             description: "This is the documentation API for Bff service"
+      saga:
+        path_patterns:
+          - ^/api/saga/v\d+
+        documentation:
+          info:
+            title: Service API for Saga
+            description: "This is the documentation API for Saga service"
 
 when@test:
   <<: *nelmio_api_doc

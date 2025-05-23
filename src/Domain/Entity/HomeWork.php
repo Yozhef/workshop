@@ -64,4 +64,9 @@ class HomeWork implements Timestampable
     {
         return $this->isCompleted;
     }
+
+    public function setIsCompleted(bool $isCompleted): void
+    {
+        $this->isCompleted = $isCompleted;
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Command\PinCode;
 
-use App\Domain\Service\PinStorageInterface;
+use App\Domain\Service\Redis\PinStorageInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
