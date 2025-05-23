@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Service\Mailer\Client;
 
 use App\Infrastructure\Service\Mailer\Dto\SendEmailEnqueueRequest;
@@ -37,7 +39,7 @@ readonly class EmailClient
             throw new Exception($exception->getMessage());
         }
 
-        if ($response->getStatusCode() !== Response::HTTP_NO_CONTENT) {
+        if (Response::HTTP_NO_CONTENT !== $response->getStatusCode()) {
             throw new Exception('Error code response ' . $response->getStatusCode());
         }
     }

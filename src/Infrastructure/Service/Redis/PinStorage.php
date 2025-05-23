@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\Redis;
 
-use App\Domain\Service\PinStorageInterface;
+use App\Domain\Service\Redis\PinStorageInterface;
 use SymfonyBundles\RedisBundle\Redis\ClientInterface;
 
 final readonly class PinStorage extends AbstractRedisStorageManager implements PinStorageInterface
@@ -21,7 +21,7 @@ final readonly class PinStorage extends AbstractRedisStorageManager implements P
 
     public function getPin(string $token): ?string
     {
-        $this->find($token);
+        return $this->find($token);
     }
 
     public function deletePin(string $token): void
