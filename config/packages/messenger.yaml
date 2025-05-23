@@ -1,5 +1,6 @@
 parameters:
     base_bus_config: &base_bus_config
+        default_middleware: allow_no_handlers
         middleware:
             - doctrine_ping_connection
 
@@ -24,6 +25,7 @@ framework:
             App\Infrastructure\MessageBus\CommandMessageInterface: sync
             App\Infrastructure\MessageBus\QueryMessageInterface: sync
             App\Infrastructure\MessageBus\AsyncMessageInterface: async
+            App\Application\Command\HomeWork\HomeWorkCreateMessage: async
 
 when@test:
     framework:
