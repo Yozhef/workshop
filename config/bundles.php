@@ -24,4 +24,5 @@ return [
     SymfonyHealthCheckBundle\SymfonyHealthCheckBundle::class => ['all' => true],
     ExtendedMockHttpClient\ExtendedMockHttpClientBundle::class => ['test' => true],
     BehatHttpMockContext\BehatHttpMockContextBundle::class => ['test' => true],
+    Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
 ];

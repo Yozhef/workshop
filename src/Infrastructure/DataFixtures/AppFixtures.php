@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->loader->load([
-            $this->rootDir . '/tests/DataFixtures/ORM/Base.yml',
+            $this->rootDir . '/tests/DataFixtures/Orm/Base.yml',
         ]);
     }
 }
