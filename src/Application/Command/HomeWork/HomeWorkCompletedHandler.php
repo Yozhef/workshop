@@ -22,10 +22,12 @@ class HomeWorkCompletedHandler
 
     public function __invoke(HomeWorkCompleted $message): void
     {
-        $defaultEntity = $this->homeWorkRepository->get($message->id);
-
-        $defaultEntity->complete();
-
-        $this->homeWorkRepository->store($defaultEntity);
+        try {
+            $defaultEntity = $this->homeWorkRepository->get($message->id);
+            $defaultEntity->complete();
+            $this->homeWorkRepository->store($defaultEntity);
+        } catch (\DomainException $e) {
+            throw $e;
+        }
     }
 }

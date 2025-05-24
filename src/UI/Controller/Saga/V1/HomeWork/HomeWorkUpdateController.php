@@ -51,15 +51,29 @@ final class HomeWorkUpdateController extends AbstractController
             description: 'Validation Failed',
             content: new OA\JsonContent(ref: '#/components/schemas/error.400'),
         ),
+        new OA\Response(
+            response: Response::HTTP_UNPROCESSABLE_ENTITY,
+            description: 'Processing Error',
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'error', type: 'string'),
+                    new OA\Property(property: 'code', type: 'string')
+                ]
+            ),
+        ),
     ])]
     public function __invoke(
         CommandBus $queryBus,
         HomeWorkUpdateForm $form,
-    ): void {
+    ): Response {
         try {
             $queryBus->dispatch(new HomeWorkCompleted($form->id));
+            return new Response(null, Response::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
-
+            return new JsonResponse(
+                ['error' => $e->getMessage(), 'code' => 'homework_completion_failed'],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
     }
 }
