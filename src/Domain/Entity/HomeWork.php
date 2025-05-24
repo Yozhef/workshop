@@ -64,4 +64,12 @@ class HomeWork implements Timestampable
     {
         return $this->isCompleted;
     }
+    public function complete(): self
+    {
+        if ($this->dueDate !== null && $this->dueDate < new \DateTimeImmutable()) {
+            throw new \Exception('Cannot complete homework after due date');
+        }
+        $this->isCompleted = true;
+        return $this;
+    }
 }

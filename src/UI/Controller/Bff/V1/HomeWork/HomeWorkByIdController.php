@@ -8,7 +8,9 @@ use App\Application\Query\HomeWork\HomeWorkById;
 use App\Domain\Entity\HomeWork;
 use App\Infrastructure\MessageBus\QueryBus;
 use App\UI\Controller\Bff\V1\HomeWork\Form\HomeWorkByIdForm;
+use BehatNelmioDescriber\Attributes\BehatFeature;
 use BehatNelmioDescriber\Attributes\BehatFeaturesPath;
+use BehatNelmioDescriber\Enum\Status;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation as ApiDoc;
 use OpenApi\Attributes as OA;
@@ -30,6 +32,12 @@ final class HomeWorkByIdController extends AbstractController
     /**
      * @param QueryBus<HomeWork> $queryBus
      */
+    #[BehatFeature(status: Status::SUCCESS, file: 'HomeWork.ById.feature', anchors: [
+        'success',
+    ])]
+    #[BehatFeature(status: Status::FAILURE, file: 'HomeWork.ById.feature', anchors: [
+        'failInvalidId',
+    ])]
     #[Rest\View(statusCode: Response::HTTP_OK, serializerGroups: ['home_work_default', 'response_dto_default'])]
     #[ApiDoc\Operation(['tags' => ['BFF']])]
     #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'string'))]

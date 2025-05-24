@@ -9,7 +9,9 @@ use App\Domain\Entity\HomeWork;
 use App\Infrastructure\MessageBus\QueryBus;
 use App\UI\Controller\Bff\V1\HomeWork\Form\HomeWorkPaginatedListForm;
 use App\UI\Response\Model\PaginationModel;
+use BehatNelmioDescriber\Attributes\BehatFeature;
 use BehatNelmioDescriber\Attributes\BehatFeaturesPath;
+use BehatNelmioDescriber\Enum\Status;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation as ApiDoc;
@@ -31,6 +33,13 @@ final class HomeWorkPaginatedListController extends AbstractController
     /**
      * @param QueryBus<Paginator> $queryBus
      */
+    #[BehatFeature(status: Status::SUCCESS, file: 'HomeWork.PaginatedList.feature', anchors: [
+        'success',
+    ])]
+    #[BehatFeature(status: Status::FAILURE, file: 'HomeWork.PaginatedList.feature', anchors: [
+        'failInvalidParamsNotInteger',
+        'failInvalidParamsNotPositive',
+    ])]
     #[Rest\View(
         statusCode: Response::HTTP_OK,
         serializerGroups: [
