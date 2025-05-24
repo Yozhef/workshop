@@ -1,0 +1,18 @@
+App\Domain\Entity\HomeWork:
+    homework1:
+        __construct:
+            id: <uuid('8fcf5165-8a10-44ce-be25-21867da3b41b')>
+            title: 'Test Homework 1'
+            dueDate: <(new \DateTimeImmutable('2025-05-30'))>
+
+    homework2:
+        __construct:
+            id: <uuid('9fcf5165-8a10-44ce-be25-21867da3b41c')>
+            title: 'Test Homework 2'
+            dueDate: <(new \DateTimeImmutable('2025-05-20'))>
+
+    homework_past_due:
+        __construct:
+            id: <uuid('7fcf5165-8a10-44ce-be25-21867da3b41a')>
+            title: 'Past Due Homework'
+            dueDate: <(new \DateTimeImmutable('2025-05-31'))>
