@@ -15,6 +15,10 @@ start:
 	@echo "🚀 Запускаємо проєкт..."
 	$(DC) up -d
 
+up:
+	@echo "🚀 Запускаємо проєкт..."
+	$(DC) up -d
+
 # ⛔ Явне зупинення і прибирання
 down:
 	$(DC) down --remove-orphans

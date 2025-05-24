@@ -64,4 +64,13 @@ class HomeWork implements Timestampable
     {
         return $this->isCompleted;
     }
+
+    public function complete(DateTimeImmutable $completeDate): void
+    {
+        if ($completeDate > $this->dueDate) {
+            throw new \DomainException('Cannot complete outdated homework');
+        }
+
+        $this->isCompleted = true;
+    }
 }
