@@ -54,4 +54,9 @@ class Homework
     {
         $this->description = $description;
     }
+
+    public function setId(Uuid $id): void
+    {
+        $this->id = $id;
+    }
 }
