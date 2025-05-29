@@ -64,4 +64,19 @@ class HomeWork implements Timestampable
     {
         return $this->isCompleted;
     }
+
+    public function markAsCompleted(): void
+    {
+        $this->isCompleted = true;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setDueDate(DateTimeImmutable $dueDate): void
+    {
+        $this->dueDate = $dueDate;
+    }
 }
