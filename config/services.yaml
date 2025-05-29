@@ -63,6 +63,10 @@ services:
         tags:
             - { name: messenger.message_handler, bus: command.bus }
 
+    App\Application\Command\HomeWork\NotifyHomeworkHandler:
+        tags:
+            - { name: 'messenger.message_handler' }
+
     App\UI\Response\ResponseDtoListener:
         arguments:
             $isSkipped: '%app.skip_response_dto_listener%'
@@ -83,6 +87,11 @@ services:
         arguments:
             - 'pin-code'
             - '36000'
+
+    App\Infrastructure\Service\Redis\HomeWorkStorage:
+        arguments:
+            - 'homework'
+            - '3600'
 
     App\Infrastructure\Service\Mailer\Client\EmailClient:
         class: App\Infrastructure\Service\Mailer\Client\EmailClient

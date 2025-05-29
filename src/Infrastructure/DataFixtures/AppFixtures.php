@@ -19,6 +19,7 @@ class AppFixtures extends Fixture
     {
         $this->loader->load([
             $this->rootDir . '/tests/DataFixtures/ORM/Base.yml',
+            $this->rootDir . '/tests/DataFixtures/ORM/Homework.yml',
         ]);
     }
 }

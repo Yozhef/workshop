@@ -29,8 +29,9 @@ final class HomeWorkCreateController extends AbstractController
 {
     #[BehatFeature(status: Status::FAILURE, file: 'Create.feature', anchors: [
         'failBlankParams',
-        'failEntityAlreadyExist',
+        'failDueDateInThePast',
         'failInvalidId',
+        'failInvalidDueDate',
     ])]
     #[Rest\View(statusCode: Response::HTTP_NO_CONTENT)]
     #[ApiDoc\Operation(['tags' => ['Saga']])]

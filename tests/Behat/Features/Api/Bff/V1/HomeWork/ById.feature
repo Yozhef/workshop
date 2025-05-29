@@ -2,13 +2,13 @@ Feature:
   Behat Get Homework By Id
 
 Background:
-  Given I load fixtures "Base"
+  Given I load fixtures "Homework"
 
   Scenario: Get Homework By Id - success
     Given the request contains params:
         """
         {
-            "id": "a1b2c3d4-5678-90ab-cdef-1234567890ab"
+            "id": "1618c4cd-86ed-4d29-ac75-6f406cc95e72"
         }
         """
     And I send "GET" request to "api_bff_v1_home_work_by_id" route
@@ -18,10 +18,10 @@ Background:
         """
         {
             "data": {
-                "id": "a1b2c3d4-5678-90ab-cdef-1234567890ab",
-                "title": "Math assignment",
-                "dueDate": "2025-05-30",
-                "isCompleted": false,
+                "id": "1618c4cd-86ed-4d29-ac75-6f406cc95e72",
+                "title": "Science project",
+                "dueDate": 1751241600,
+                "isCompleted": false
             }
         }
         """
