@@ -21,7 +21,7 @@ final readonly class PinStorage extends AbstractRedisStorageManager implements P
 
     public function getPin(string $token): ?string
     {
-        $this->find($token);
+        return $this->find($token);
     }
 
     public function deletePin(string $token): void
