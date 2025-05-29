@@ -10,3 +10,5 @@ App\Domain\Entity\DefaultEntity:
             id: <uuid('8fcf5165-8a10-44ce-be25-21867da3b41c')>
             name: 'Test name 2'
         createdAt: <identity(new \DateTime('2024-02-29'))>
+
+
