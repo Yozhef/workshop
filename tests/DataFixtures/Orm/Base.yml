@@ -10,3 +10,18 @@ App\Domain\Entity\DefaultEntity:
             id: <uuid('8fcf5165-8a10-44ce-be25-21867da3b41c')>
             name: 'Test name 2'
         createdAt: <identity(new \DateTime('2024-02-29'))>
+
+App\Domain\Entity\HomeWork:
+    instance1:
+        __construct:
+            id: <uuid('dbf6d1a6-76d2-4120-a0e3-5288ea8afc5c')>
+            title: 'Test title'
+            dueDate: <identity(new \DateTimeImmutable('2025-08-01'))>
+        createdAt: <identity(new \DateTime('2025-05-25'))>
+
+    instance2:
+        __construct:
+            id: <uuid('0b5470cf-c8d9-4133-9ece-8c21cd9637f4')>
+            title: 'Test title 2'
+            dueDate: <identity(new \DateTimeImmutable('2024-02-29'))>
+        createdAt: <identity(new \DateTime('2025-05-25'))>

@@ -10,6 +10,7 @@ framework:
         buses:
             command.bus: *base_bus_config
             query.bus: ~
+            event.bus: ~
 
         transports:
             sync: 'sync://'
